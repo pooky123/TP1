@@ -1,0 +1,193 @@
+﻿<Application x:Class="TP1.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:local="clr-namespace:TP1"
+             StartupUri="MainWindow.xaml">
+
+    <Application.Resources>
+        <Thickness x:Key="BaseBorderThickness">3</Thickness>
+        <SolidColorBrush x:Key="ColorMouseHover">#7289DA</SolidColorBrush>
+        <SolidColorBrush x:Key="ColorKeyboardFocused">Orange</SolidColorBrush>
+        <SolidColorBrush x:Key="ColorForegroundInput">#BDC1C6</SolidColorBrush>
+        <SolidColorBrush x:Key="ColorBackgroundInput">#202124</SolidColorBrush>
+        <SolidColorBrush x:Key="ColorBackgroundWindow">#2C2F33</SolidColorBrush>
+        <SolidColorBrush x:Key="ColorLink">LightBlue</SolidColorBrush>
+
+        <Style x:Key="BaseBorderStyle" TargetType="{x:Type Border}">
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="White" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
+
+        <Style x:Key="BaseTextBlockStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="BaseRadioButtonStyle" TargetType="{x:Type RadioButton}">
+            <Setter Property="Template" Value="{DynamicResource ToggleButtonControlTemplate1}" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="White" />
+        </Style>
+
+        <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Template" Value="{DynamicResource ButtonBaseControlTemplate1}" />
+            <Setter Property="Padding" Value="25 10" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Foreground" Value="Black" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="White" />
+
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="25" />
+                    <!--<Setter Property="RenderOptions.EdgeMode" Value="Aliased" />-->
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <Style x:Key="EmptyRoundedButtonStyle" BasedOn="{StaticResource RoundedButtonStyle}" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <Style x:Key="RoundedTextBoxStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Template" Value="{DynamicResource TextBoxControlTemplate1}" />
+            <Setter Property="Padding" Value="15 5" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Foreground" Value="{StaticResource ColorForegroundInput}" />
+            <Setter Property="Background" Value="{StaticResource ColorBackgroundInput}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="{StaticResource BaseBorderThickness}" />
+        </Style>
+
+        <Style x:Key="RoundedPasswordBoxStyle" TargetType="{x:Type PasswordBox}">
+            <Setter Property="Template" Value="{DynamicResource PasswordBoxControlTemplate1}" />
+            <Setter Property="Padding" Value="15 5" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="Background" Value="{StaticResource ColorBackgroundInput}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="{StaticResource BaseBorderThickness}" />
+        </Style>
+
+        <ControlTemplate x:Key="TextBoxControlTemplate1" TargetType="{x:Type TextBox}">
+            <Border x:Name="border"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{StaticResource BaseBorderThickness}"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="20"
+                    SnapsToDevicePixels="True">
+                <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorMouseHover}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorKeyboardFocused}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="PasswordBoxControlTemplate1" TargetType="{x:Type PasswordBox}">
+            <Border x:Name="border"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{StaticResource BaseBorderThickness}"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="20"
+                    SnapsToDevicePixels="True">
+                <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" TargetName="border" Value="0.56"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorMouseHover}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorKeyboardFocused}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ToggleButtonControlTemplate1" TargetType="{x:Type ToggleButton}">
+            <Border x:Name="border" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="3" 
+                    Background="{TemplateBinding Background}" 
+                    SnapsToDevicePixels="True">
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" 
+                            Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorMouseHover}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorKeyboardFocused}"/>
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="White"/>
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" TargetName="border" Value="Transparent"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ButtonBaseControlTemplate1" TargetType="{x:Type ButtonBase}">
+            <Border x:Name="border" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{StaticResource BaseBorderThickness}" 
+                    Background="{TemplateBinding Background}" 
+                    UseLayoutRounding="True"
+                    SnapsToDevicePixels="True">
+                <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorMouseHover}"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorKeyboardFocused}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" TargetName="border" Value="{StaticResource ColorBackgroundInput}"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource ColorBackgroundInput}"/>
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="DefaultWindowStyle" TargetType="{x:Type Window}">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Background" Value="{StaticResource ColorBackgroundWindow}" />
+
+            <Style.Resources>
+                <Style BasedOn="{StaticResource BaseTextBlockStyle}" TargetType="{x:Type TextBlock}" />
+                <Style BasedOn="{StaticResource BaseRadioButtonStyle}" TargetType="{x:Type RadioButton}" />
+                <Style BasedOn="{StaticResource RoundedTextBoxStyle}" TargetType="{x:Type TextBox}" />
+                <Style BasedOn="{StaticResource RoundedPasswordBoxStyle}" TargetType="{x:Type PasswordBox}" />
+                <Style BasedOn="{StaticResource RoundedButtonStyle}" TargetType="{x:Type Button}" />
+            </Style.Resources>
+        </Style>
+    </Application.Resources>
+
+</Application>
