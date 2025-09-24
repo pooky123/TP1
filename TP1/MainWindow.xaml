@@ -17,14 +17,14 @@
         <StackPanel Margin="0,25,0,0" 
             HorizontalAlignment="Center" 
                     Orientation="Horizontal">
-            <RadioButton Padding="20 10 20 10" Content="Student" IsChecked="true">
+            <RadioButton x:Name="rdbStudent" Padding="20 10 20 10" Content="Student" IsChecked="true">
                 <ToggleButton.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="20 0 0 20"/>
                     </Style>
                 </ToggleButton.Resources>
             </RadioButton>
-            <RadioButton Padding="20 10 20 10" Content="Teacher" >
+            <RadioButton x:Name="rdbTeacher" Padding="20 10 20 10" Content="Teacher" >
                 <ToggleButton.Resources>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="CornerRadius" Value="0 20 20 0"/>
@@ -33,23 +33,23 @@
             </RadioButton>
         </StackPanel>
 
-        <StackPanel Margin="93,10,10,0" 
+        <StackPanel Margin="135,10,10,0" 
                     Orientation="Horizontal">
-            <TextBlock Margin="0,0,10,0">Utilisateur:</TextBlock>
+            <TextBlock x:Name="userId" Margin="0,0,10,0">id :</TextBlock>
             <TextBox Width="200"></TextBox>
         </StackPanel>
 
-        <StackPanel Margin="70,0,10,0" 
+        <StackPanel Margin="80,0,10,0" 
                     Orientation="Horizontal">
-            <TextBlock Margin="0,0,10,0">Mot de passe:</TextBlock>
+            <TextBlock x:Name="UserPW" Margin="0,0,10,0">password :</TextBlock>
             <TextBox Width="200"></TextBox>
         </StackPanel>
         
         <StackPanel Margin="0,10,0,0"
             HorizontalAlignment="Center" 
                     Orientation="Horizontal">
-            <Button>Se connecter</Button>
-            <Button Style="{StaticResource EmptyRoundedButtonStyle}">Mot de passe oublié</Button>
+            <Button x:Name="btnLogin">Login</Button>
+            <Button Style="{StaticResource EmptyRoundedButtonStyle}">Forgot password</Button>
         </StackPanel>
         
     </StackPanel>

@@ -16,7 +16,7 @@ namespace TP1
             // Débuter avec un user non connecté
             App.Current.LoggedInUser = null;
 
-            //btnStudent.Click += btnStudent_Click;
+            btnLogin.Click += btnLogin_Click;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -33,8 +33,15 @@ namespace TP1
             // App.Current.LoggedInUser = ...
         }
 
-        private void btnStudent_Click(object sender, RoutedEventArgs e)
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+            if (rdbStudent.IsChecked == true)
+            {
+                foreach (Student s in App.Current.Students.Values)
+                {
+
+                }
+            }
 
         }
     }
