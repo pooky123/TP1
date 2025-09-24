@@ -5,13 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TP1"
         mc:Ignorable="d"
-        Title="MainWindow" 
+        Title="Connextion au Cégep de St-Jérôme" 
         Height="300" 
         Width="450" 
         ResizeMode="NoResize"
-        KeyDown="Window_KeyDown">
+        KeyDown="Window_KeyDown"
+        Style="{StaticResource DefaultWindowStyle}">
 
     <StackPanel>
 
+        <StackPanel Margin="0,25,0,0" 
+            HorizontalAlignment="Center" 
+                    Orientation="Horizontal">
+            <RadioButton Padding="20 10 20 10" Content="Student" IsChecked="true">
+                <ToggleButton.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="20 0 0 20"/>
+                    </Style>
+                </ToggleButton.Resources>
+            </RadioButton>
+            <RadioButton Padding="20 10 20 10" Content="Teacher" >
+                <ToggleButton.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="0 20 20 0"/>
+                    </Style>
+                </ToggleButton.Resources>
+            </RadioButton>
+        </StackPanel>
+
+        <StackPanel Margin="93,10,10,0" 
+                    Orientation="Horizontal">
+            <TextBlock Margin="0,0,10,0">Utilisateur:</TextBlock>
+            <TextBox Width="200"></TextBox>
+        </StackPanel>
+
+        <StackPanel Margin="70,0,10,0" 
+                    Orientation="Horizontal">
+            <TextBlock Margin="0,0,10,0">Mot de passe:</TextBlock>
+            <TextBox Width="200"></TextBox>
+        </StackPanel>
+        
+        <StackPanel Margin="0,10,0,0"
+            HorizontalAlignment="Center" 
+                    Orientation="Horizontal">
+            <Button>Se connecter</Button>
+            <Button Style="{StaticResource EmptyRoundedButtonStyle}">Mot de passe oublié</Button>
+        </StackPanel>
+        
     </StackPanel>
 </Window>
