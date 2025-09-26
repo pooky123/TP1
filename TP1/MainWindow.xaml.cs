@@ -17,32 +17,79 @@ namespace TP1
             App.Current.LoggedInUser = null;
 
             btnLogin.Click += btnLogin_Click;
+            btnForgotPW.Click += btnForgotPW_Click;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                Login();
+                btnLogin_Click(sender, e);
             }
         }
-
-        private void Login()
+        private void btnForgotPW_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: effectuer la connexion ici par le bouton ou par la touche Enter
-            // App.Current.LoggedInUser = ...
+            AdminWindow adminWindow = new();
+            adminWindow.ShowDialog();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+            if (userId.Text == "Admin" && UserPW.Password == "Admin")
+            {
+                if (int.TryParse(userId.Text, out int id))
+                {
+                    if (id == App.Current.Admin.Id)
+                    {
+                        if (UserPW.Password == App.Current.Admin.Password)
+                        {
+                            AdminWindow adminWindow = new();
+                            adminWindow.ShowDialog();
+                            userId.Clear();
+                            UserPW.Clear();
+                            return;
+                        }
+                    }
+                }
+            }
             if (rdbStudent.IsChecked == true)
             {
                 foreach (Student s in App.Current.Students.Values)
                 {
-
+                    if (int.TryParse(userId.Text, out int id))
+                    {
+                        if (id == s.Id)
+                        {
+                            if (UserPW.Password == s.Password)
+                            {
+                                // Appeler Home widow
+                                userId.Clear();
+                                UserPW.Clear();
+                                return;
+                            }
+                        }
+                    }
                 }
             }
 
+            if (rdbTeacher.IsChecked == true)
+            {
+                foreach (Teacher t in App.Current.Teachers.Values)
+                {
+                    if (int.TryParse(userId.Text, out int id))
+                    {
+                        if (id == t.Id)
+                        {
+                            if (UserPW.Password == t.Password)
+                            {
+                                // Appeler Home widow
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            MessageBox.Show("User not found. Please verify Username, Password or user type.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

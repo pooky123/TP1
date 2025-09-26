@@ -1,27 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 
 namespace TP1
 {
     /// <summary>
     /// Logique d'interaction pour Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class AdminWindow : Window
     {
-        public Window1()
+        public AdminWindow()
         {
             InitializeComponent();
+
+            btnManageUsers.Click += btnManageUsers_Click;
+            btnManageGroups.Click += btnManageGroups_Click;
+            btnManageLessons.Click += btnManageLessons_Click;
+        }
+
+        private void btnManageUsers_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnManageGroups_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnManageLessons_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
