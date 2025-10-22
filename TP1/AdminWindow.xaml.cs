@@ -12,21 +12,17 @@ namespace TP1
             InitializeComponent();
 
             btnManageUsers.Click += btnManageUsers_Click;
-            btnManageGroups.Click += btnManageGroups_Click;
-            btnManageLessons.Click += btnManageLessons_Click;
+            btnQuitter.Click += btnQuitter_Click;
         }
 
         private void btnManageUsers_Click(object sender, RoutedEventArgs e)
         {
-
+            ManageUsersWindow usersWindow = new();
+            usersWindow.ShowDialog();
         }
-        private void btnManageGroups_Click(object sender, RoutedEventArgs e)
+        private void btnQuitter_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-        private void btnManageLessons_Click(object sender, RoutedEventArgs e)
-        {
-
+            App.Current.Logout();
         }
     }
 }

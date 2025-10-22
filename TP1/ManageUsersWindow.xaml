@@ -1,0 +1,28 @@
+﻿<Window x:Class="TP1.ManageUsersWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TP1"
+        mc:Ignorable="d"
+        Title="ManageUsersWindow" Height="500" Width="600"
+        Style="{StaticResource DefaultWindowStyle}">
+    <StackPanel>
+        <StackPanel Margin="20 20 20 0" Orientation="Horizontal">
+            <TextBlock Margin="0 0 10 0">User type :</TextBlock>
+            <ComboBox SelectionChanged="cmbType_SelectionChanged" x:Name="cmbType" Padding="0 0 475 0"></ComboBox>
+        </StackPanel>
+        <StackPanel Margin="20 0 20 0" Orientation="Horizontal">
+            <TextBlock Margin="0 0 20 0">Search :</TextBlock>
+            <TextBox Padding="0 0 475 0"></TextBox>
+        </StackPanel>
+        <StackPanel Margin="20 10 20 15">
+            <ListView Height="300" x:Name="lsvUser"></ListView>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button x:Name="BtnAddTeacher" Click="BtnAddTeacher_Click">Add teacher</Button>
+            <Button x:Name="BtnAddStudent">Add student</Button>
+            <Button x:Name="BtnDelete">Delete</Button>
+        </StackPanel>
+    </StackPanel>
+</Window>

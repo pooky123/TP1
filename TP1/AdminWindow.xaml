@@ -14,6 +14,6 @@
         <Button Margin="0 10 0 10" x:Name="btnManageLessons">Manage lessons</Button>
         <Line Margin="0 10 0 10" X1="0" Y1="0" X2="375" Y2="0" Stroke="White" StrokeThickness="2" HorizontalAlignment="Center"/>
 
-        <Button Margin="0 10 0 0" Style="{StaticResource EmptyRoundedButtonStyle}">Quitter</Button>
+        <Button Margin="0 10 0 0" x:Name="btnQuitter" Style="{StaticResource EmptyRoundedButtonStyle}">Quitter</Button>
     </StackPanel>
 </Window>
