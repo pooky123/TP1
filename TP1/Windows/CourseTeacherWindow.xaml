@@ -1,0 +1,169 @@
+﻿<Window x:Class="TP1.CourseTeacherWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cours (Enseignant)"
+        Height="680" Width="900"
+        WindowStartupLocation="CenterScreen"
+        Background="#212529">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="Bg" Color="#212529"/>
+        <SolidColorBrush x:Key="Card" Color="#2B3035"/>
+        <SolidColorBrush x:Key="Text" Color="#E9ECEF"/>
+        <SolidColorBrush x:Key="Muted" Color="#ADB5BD"/>
+        <SolidColorBrush x:Key="Border" Color="#3A3F44"/>
+        <SolidColorBrush x:Key="Accent" Color="#FFFFFF"/>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource Text}"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{StaticResource Text}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="PillBox" TargetType="Control">
+            <Setter Property="Foreground" Value="{StaticResource Text}"/>
+            <Setter Property="Background" Value="{StaticResource Card}"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Control">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="18" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="PillButton" TargetType="Button" BasedOn="{StaticResource PillBox}">
+            <Setter Property="Foreground" Value="#111"/>
+            <Setter Property="Background" Value="{StaticResource Accent}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style x:Key="PillTextBox" TargetType="TextBox" BasedOn="{StaticResource PillBox}"/>
+        <Style x:Key="PillCombo" TargetType="ComboBox" BasedOn="{StaticResource PillBox}">
+            <Setter Property="MinWidth" Value="260"/>
+        </Style>
+        <Style x:Key="ListCard" TargetType="ListBox">
+            <Setter Property="Foreground" Value="{StaticResource Text}"/>
+            <Setter Property="Background" Value="{StaticResource Card}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style x:Key="PanelCard" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource Card}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Title -->
+        <TextBlock x:Name="lblTitle" Grid.Row="0" Grid.ColumnSpan="2"
+                   FontSize="16" FontWeight="Bold" Margin="4,0,0,12"/>
+
+        <!-- Evaluation selector and add button -->
+        <Label Grid.Row="1" Grid.Column="0" Content="Evaluation :" />
+        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="100,0,0,8">
+            <ComboBox x:Name="cbEvaluations" Style="{StaticResource PillCombo}"
+                      SelectionChanged="cbEvaluations_SelectionChanged"/>
+        </StackPanel>
+        <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource PillButton}"
+                Content="Add evaluation" Click="btnAddEvaluation_Click" HorizontalAlignment="Right"/>
+
+        <!-- Weight and Average -->
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal" Margin="0,0,18,0">
+                <Label Content="Weight :" />
+                <TextBox x:Name="txtWeight" Width="90" Style="{StaticResource PillTextBox}"
+                         PreviewTextInput="NumericOnly"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Average :" />
+                <TextBox x:Name="txtAverage" Width="120" Style="{StaticResource PillTextBox}"
+                         IsReadOnly="True" Foreground="{StaticResource Muted}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Results list -->
+        <Border Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource PanelCard}">
+            <ListBox x:Name="lstEvalResults" Style="{StaticResource ListCard}" Height="220"
+                     SelectionChanged="lstEvalResults_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <Run Text="{Binding EvalName}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{Binding StudentId}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{Binding StudentName}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{Binding Result}"/>
+                            <Run Text=" / "/>
+                            <Run Text="{Binding Weight}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Border>
+
+        <!-- Id + add result -->
+        <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal" Margin="0,10,0,6">
+            <Label Content="Id :" />
+            <TextBox x:Name="txtStudentId" Width="180" Style="{StaticResource PillTextBox}"
+                     TextChanged="txtStudentId_TextChanged" PreviewTextInput="NumericOnly"/>
+        </StackPanel>
+        <Button Grid.Row="4" Grid.Column="1" Style="{StaticResource PillButton}"
+                Content="Add result" HorizontalAlignment="Right" Click="btnAddResult_Click"/>
+
+        <!-- Names -->
+        <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,0,0,8">
+            <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
+                <Label Content="Last Name :" />
+                <TextBox x:Name="txtLastName" Width="240" Style="{StaticResource PillTextBox}" IsReadOnly="True"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="First Name :" />
+                <TextBox x:Name="txtFirstName" Width="240" Style="{StaticResource PillTextBox}" IsReadOnly="True"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Student results across all evals -->
+        <Border Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource PanelCard}">
+            <StackPanel>
+                <TextBlock Text="Student results :" Margin="0,0,0,6" FontWeight="Bold"/>
+                <ListBox x:Name="lstStudentAll" Style="{StaticResource ListCard}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <Run Text="{Binding Name}"/>
+                                <Run Text=" - "/>
+                                <Run Text="{Binding Result}"/>
+                                <Run Text=" / "/>
+                                <Run Text="{Binding Value}"/>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

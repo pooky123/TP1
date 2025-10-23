@@ -1,0 +1,184 @@
+﻿<Window x:Class="TP1.HomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Omnivox - Accueil" Height="760" Width="1280"
+        MinHeight="600" MinWidth="1024" WindowStartupLocation="CenterScreen"
+        Background="#FFF6F8FB">
+    <!-- Local resources (light theme for Home only) -->
+    
+    <Window.Resources>
+        
+        <Color x:Key="PrimaryBlue">#3F6AB7</Color>
+        <Color x:Key="AccentOrange">#FF6A00</Color>
+        <SolidColorBrush x:Key="BHeader" Color="{StaticResource PrimaryBlue}"/>
+        <SolidColorBrush x:Key="BAccent" Color="{StaticResource AccentOrange}"/>
+        <SolidColorBrush x:Key="BCard" Color="White"/>
+        <SolidColorBrush x:Key="BSectionTitle" Color="#D44A00"/>
+        <SolidColorBrush x:Key="BLink" Color="#1E6FD7"/>
+        <SolidColorBrush x:Key="BSubtle" Color="#8895A7"/>
+        <SolidColorBrush x:Key="BBorder" Color="#E3E9F1"/>
+
+        <!-- Section title -->
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource BSectionTitle}"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,8"/>
+        </Style>
+
+        <!-- Link row on left (no Spacing) -->
+        <Style x:Key="LeftLink" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="6,4"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="8" Height="8" Fill="{StaticResource BLink}" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBlock Text="{TemplateBinding Content}" Foreground="{StaticResource BLink}"/>
+                            </StackPanel>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Pill button (Logout) -->
+        <Style x:Key="PillButton" TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BAccent}"/>
+            <Setter Property="Padding" Value="16,8"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="22" SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Card for News -->
+        <Style x:Key="Card" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BCard}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0,0,16,16"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.15"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="72"/>
+            <!-- header -->
+            <RowDefinition Height="*"/>
+            <!-- body -->
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Border Grid.Row="0" Background="{StaticResource BHeader}">
+            <DockPanel LastChildFill="True" Margin="16,0">
+                <StackPanel DockPanel.Dock="Left" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock Text="Welcome," Foreground="White" Opacity="0.9"/>
+                    <TextBlock x:Name="txtUserName" Foreground="White" FontSize="24" FontStyle="Italic" FontWeight="Bold"/>
+                </StackPanel>
+                <Button DockPanel.Dock="Right" Style="{StaticResource PillButton}" Click="btnLogout_Click" Margin="8,0,0,0" VerticalAlignment="Center">
+                    Logout
+                </Button>
+            </DockPanel>
+        </Border>
+
+        <!-- BODY -->
+        <Grid Grid.Row="1" Margin="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="340"/>
+                <!-- left rail -->
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+                <!-- content -->
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT RAIL -->
+            <StackPanel Grid.Column="0">
+                <!-- My courses -->
+                <TextBlock Style="{StaticResource SectionTitle}" Text="My courses"/>
+                <ComboBox x:Name="cbSessions" Height="28" SelectionChanged="cbSessions_SelectionChanged" Margin="0,0,0,8">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <Border BorderBrush="{StaticResource BBorder}" BorderThickness="1" Background="White" CornerRadius="6" Margin="0,8,0,0">
+                    <ListBox x:Name="lstCourses" BorderThickness="0" SelectionChanged="lstCourses_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="{StaticResource BBorder}" BorderThickness="0,0,0,1" Padding="8,10">
+                                    <TextBlock>
+                                        <Run Text="{Binding Id}"/>
+                                        <Run Text=" - "/>
+                                        <Run Text="{Binding Name}"/>
+                                        <Run Text="  (gr. "/>
+                                        <Run Text="{Binding Group}"/>
+                                        <Run Text=")"/>
+                                    </TextBlock>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+
+                <!-- My account -->
+                <TextBlock Style="{StaticResource SectionTitle}" Text="My account" Margin="0,20,0,8"/>
+                <StackPanel>
+                    <Button Style="{StaticResource LeftLink}" Content="Change password" Click="btnChangePassword_Click"/>
+                    <Button Style="{StaticResource LeftLink}" Content="Reset password" Click="btnResetPassword_Click"/>
+                </StackPanel>
+
+                <!-- Other services -->
+                <TextBlock Style="{StaticResource SectionTitle}" Text="Other services" Margin="0,20,0,8"/>
+                <StackPanel>
+                    <Button Style="{StaticResource LeftLink}" Content="Banque de fiches signalétiques"/>
+                    <Button Style="{StaticResource LeftLink}" Content="Connexion portail Office 365"/>
+                    <Button Style="{StaticResource LeftLink}" Content="Moodle"/>
+                    <Button Style="{StaticResource LeftLink}" Content="Octopus - Demande de service"/>
+                    <Button Style="{StaticResource LeftLink}" Content="Remise des travaux"/>
+                    <Button Style="{StaticResource LeftLink}" Content="Repro +"/>
+                    <Button Style="{StaticResource LeftLink}" Content="Service du développement pédagogique"/>
+                    <Button Style="{StaticResource LeftLink}" Content="SIP"/>
+                    <Button Style="{StaticResource LeftLink}" Content="Travail - Santé - Vie"/>
+                    <TextBlock Margin="0,8,0,0">
+                        <Hyperlink NavigateUri="https://www.youtube.com/watch?v=dQw4w9WgXcQ" RequestNavigate="Hyperlink_RequestNavigate">
+                            Service externe (YouTube)
+                        </Hyperlink>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
+            <!-- NEWS -->
+            <StackPanel Grid.Column="2">
+                <TextBlock Style="{StaticResource SectionTitle}" Text="News"/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <WrapPanel x:Name="wpNews" ItemHeight="260" ItemWidth="360"/>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
