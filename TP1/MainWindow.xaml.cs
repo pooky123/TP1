@@ -37,22 +37,14 @@ namespace TP1
         {
             if (userId.Text == "Admin" && UserPW.Password == "Admin")
             {
-                if (int.TryParse(userId.Text, out int id))
-                {
-                    if (id == App.Current.Admin.Id)
-                    {
-                        if (UserPW.Password == App.Current.Admin.Password)
-                        {
-                            AdminWindow adminWindow = new();
-                            adminWindow.ShowDialog();
-                            userId.Clear();
-                            UserPW.Clear();
-                            return;
-                        }
-                    }
-                }
+                AdminWindow adminWindow = new();
+                adminWindow.ShowDialog();
+                userId.Clear();
+                UserPW.Clear();
+                return;
+
             }
-            if (rdbStudent.IsChecked == true)
+            else if (rdbStudent.IsChecked == true)
             {
                 foreach (Student s in App.Current.Students.Values)
                 {
@@ -62,7 +54,7 @@ namespace TP1
                         {
                             if (UserPW.Password == s.Password)
                             {
-                                // Appeler Home widow
+                                // Appeler Home window
                                 userId.Clear();
                                 UserPW.Clear();
                                 return;
@@ -71,8 +63,7 @@ namespace TP1
                     }
                 }
             }
-
-            if (rdbTeacher.IsChecked == true)
+            else if (rdbTeacher.IsChecked == true)
             {
                 foreach (Teacher t in App.Current.Teachers.Values)
                 {
