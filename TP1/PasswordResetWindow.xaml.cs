@@ -49,7 +49,7 @@ namespace TP1
                 }
                 else
                 {
-                    MessageBox.Show("Ce user est introuvable");
+                    MessageBox.Show("Ce user est introuvable. Tout les champ doivent être remplie");
                 }
 
             }

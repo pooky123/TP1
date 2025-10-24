@@ -63,10 +63,13 @@ namespace TP1
 
         private void btnChangePassword_Click(object sender, RoutedEventArgs e)
         {
-
-            lstCourses.ItemsSource = items
-                .Select(c => new CourseRow { Id = c.Id, Name = c.Name, Group = c.Group, Ref = c })
-                .ToList();
+            // ERREUR
+            // TODO: CHANGEMENT
+            // lstCourses.ItemsSource = items
+            //   .Select(c => new CourseRow { Id = c.Id, Name = c.Name, Group = c.Group, Ref = c })
+            //   .ToList();
+            PasswordChangeWindow changeWindow = new();
+            changeWindow.ShowDialog();
         }
 
         private void lstCourses_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -96,8 +99,11 @@ namespace TP1
 
 
         private void btnLogout_Click(object sender, RoutedEventArgs e) => App.Current.Logout();
-        private void btnChangePassword_Click(object sender, RoutedEventArgs e) => MessageBox.Show("pas fait", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-        private void btnResetPassword_Click(object sender, RoutedEventArgs e) => MessageBox.Show("pas fait", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        private void btnResetPassword_Click(object sender, RoutedEventArgs e)
+        {
+            PasswordResetWindow resetWindow = new();
+            resetWindow.ShowDialog();
+        }
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e) { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(e.Uri.AbsoluteUri) { UseShellExecute = true }); e.Handled = true; }
 
         private void LoadNewsCards()
