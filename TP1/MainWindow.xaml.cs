@@ -29,56 +29,72 @@ namespace TP1
         }
         private void btnForgotPW_Click(object sender, RoutedEventArgs e)
         {
-            AdminWindow adminWindow = new();
-            adminWindow.ShowDialog();
+            PasswordResetWindow resetWindow = new();
+            resetWindow.ShowDialog();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            // --- Admin ---
             if (userId.Text == "Admin" && UserPW.Password == "Admin")
             {
-                if (App.Current.Admin != null) App.Current.LoggedInUser = App.Current.Admin;
-
-                new AdminWindow().Show();
-                this.Close(); 
-                return;
+                if (int.TryParse(userId.Text, out int id))
+                {
+                    if (id == App.Current.Admin.Id)
+                    {
+                        if (UserPW.Password == App.Current.Admin.Password)
+                        {
+                            AdminWindow adminWindow = new();
+                            adminWindow.ShowDialog();
+                            userId.Clear();
+                            UserPW.Clear();
+                            return;
+                        }
+                    }
+                }
             }
-
-            // Try to parse the typed ID once
-            if (!int.TryParse(userId.Text, out int id))
-            {
-                MessageBox.Show("Please enter a numeric id.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            // --- Student flow ---
             if (rdbStudent.IsChecked == true)
             {
-                if (App.Current.Students.TryGetValue(id, out var s) && UserPW.Password == s.Password)
+                foreach (Student s in App.Current.Students.Values)
                 {
-                    App.Current.LoggedInUser = s;      
-                    new HomeWindow().Show();           
-                    this.Close();                      
-                    return;
+                    if (int.TryParse(userId.Text, out int id))
+                    {
+                        if (id == s.Id)
+                        {
+                            if (UserPW.Password == s.Password)
+                            {
+                                App.Current.LoggedInUser = s;
+                                HomeWindow homeWindow = new();
+                                homeWindow.ShowDialog();
+                                userId.Clear();
+                                UserPW.Clear();
+                                return;
+                            }
+                        }
+                    }
                 }
             }
 
-            // --- Teacher flow ---
             if (rdbTeacher.IsChecked == true)
             {
-                if (App.Current.Teachers.TryGetValue(id, out var t) && UserPW.Password == t.Password)
+                foreach (Teacher t in App.Current.Teachers.Values)
                 {
-                    App.Current.LoggedInUser = t;    
-                    new HomeWindow().Show();        
-                    this.Close();                     
-                    return;
+                    if (int.TryParse(userId.Text, out int id))
+                    {
+                        if (id == t.Id)
+                        {
+                            if (UserPW.Password == t.Password)
+                            {
+                                App.Current.LoggedInUser = t;
+                                HomeWindow homeWindow = new();
+                                homeWindow.ShowDialog();
+                                return;
+                            }
+                        }
+                    }
                 }
             }
-
-            MessageBox.Show("User not found. Please verify Username, Password or user type.",
-                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show("User not found. Please verify Username, Password or user type.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
     }
+
 }
