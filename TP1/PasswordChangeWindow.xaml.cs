@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace TP1
 {
     /// <summary>
-    /// Logique d'interaction pour PasswordForgottenWindow.xaml
+    /// Logique d'interaction pour PasswordChangeWindow.xaml
     /// </summary>
-    public partial class PasswordForgottenWindow : Window
+    public partial class PasswordChangeWindow : Window
     {
-        public PasswordForgottenWindow()
+        public PasswordChangeWindow()
         {
             InitializeComponent();
         }

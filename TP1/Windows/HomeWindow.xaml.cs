@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -61,10 +59,11 @@ namespace TP1
                     : App.Current.LoggedInUser is Student stu
                         ? App.Current.Courses.Where(c => c.StudentIds.Contains(stu.Id) && MatchSemester(c))
                         : Enumerable.Empty<Course>();
+        }
 
         private void btnChangePassword_Click(object sender, RoutedEventArgs e)
         {
-            
+
             lstCourses.ItemsSource = items
                 .Select(c => new CourseRow { Id = c.Id, Name = c.Name, Group = c.Group, Ref = c })
                 .ToList();
