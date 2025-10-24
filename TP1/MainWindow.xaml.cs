@@ -35,52 +35,50 @@ namespace TP1
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+            // --- Admin ---
             if (userId.Text == "Admin" && UserPW.Password == "Admin")
             {
-                AdminWindow adminWindow = new();
-                adminWindow.ShowDialog();
-                userId.Clear();
-                UserPW.Clear();
-                return;
+                if (App.Current.Admin != null) App.Current.LoggedInUser = App.Current.Admin;
 
+                new AdminWindow().Show();
+                this.Close(); 
+                return;
             }
-            else if (rdbStudent.IsChecked == true)
+
+            // Try to parse the typed ID once
+            if (!int.TryParse(userId.Text, out int id))
             {
-                foreach (Student s in App.Current.Students.Values)
+                MessageBox.Show("Please enter a numeric id.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // --- Student flow ---
+            if (rdbStudent.IsChecked == true)
+            {
+                if (App.Current.Students.TryGetValue(id, out var s) && UserPW.Password == s.Password)
                 {
-                    if (int.TryParse(userId.Text, out int id))
-                    {
-                        if (id == s.Id)
-                        {
-                            if (UserPW.Password == s.Password)
-                            {
-                                // Appeler Home window
-                                userId.Clear();
-                                UserPW.Clear();
-                                return;
-                            }
-                        }
-                    }
+                    App.Current.LoggedInUser = s;      
+                    new HomeWindow().Show();           
+                    this.Close();                      
+                    return;
                 }
             }
-            else if (rdbTeacher.IsChecked == true)
+
+            // --- Teacher flow ---
+            if (rdbTeacher.IsChecked == true)
             {
-                foreach (Teacher t in App.Current.Teachers.Values)
+                if (App.Current.Teachers.TryGetValue(id, out var t) && UserPW.Password == t.Password)
                 {
-                    if (int.TryParse(userId.Text, out int id))
-                    {
-                        if (id == t.Id)
-                        {
-                            if (UserPW.Password == t.Password)
-                            {
-                                // Appeler Home widow
-                                return;
-                            }
-                        }
-                    }
+                    App.Current.LoggedInUser = t;    
+                    new HomeWindow().Show();        
+                    this.Close();                     
+                    return;
                 }
             }
-            MessageBox.Show("User not found. Please verify Username, Password or user type.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            MessageBox.Show("User not found. Please verify Username, Password or user type.",
+                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+
     }
 }

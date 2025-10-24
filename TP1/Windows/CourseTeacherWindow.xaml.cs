@@ -13,6 +13,12 @@ namespace TP1
     {
         private readonly Course _course;
 
+        private class EvalItem
+        {
+            public string Name { get; set; } = "";
+            public Evaluation Ref { get; set; } = null!;
+        }
+
         private class EvalResultRow
         {
             public string EvalName { get; set; } = "";
@@ -20,8 +26,9 @@ namespace TP1
             public string StudentName { get; set; } = "";
             public int Result { get; set; }
             public int Value { get; set; }
-            public int Weight => Value; // for template readability
+            public int Weight { get { return Value; } set { } }
         }
+
 
         private class StudentAllRow
         {
@@ -32,39 +39,41 @@ namespace TP1
 
         public CourseTeacherWindow(Course course)
         {
-            InitializeComponent();
             _course = course ?? throw new ArgumentNullException(nameof(course));
-            Loaded += OnLoaded;
-        }
-
-        private void OnLoaded(object? sender, RoutedEventArgs e)
-        {
+            InitializeComponent();
             lblTitle.Text = $"{_course.Id} - gr. {_course.Group} - {_course.Name}";
+            cbEvaluations.ItemsSource = null;
+            cbEvaluations.Items.Clear();
             cbEvaluations.ItemsSource = _course.Evaluations;
             cbEvaluations.DisplayMemberPath = "Name";
             if (_course.Evaluations.Count > 0) cbEvaluations.SelectedIndex = 0;
-            RefreshCourseWeightTotal();
         }
 
-        private void RefreshCourseWeightTotal()
+        private void CourseTeacherWindow_Loaded(object? sender, RoutedEventArgs e)
         {
+            lblTitle.Text = $"{_course.Id} - gr. {_course.Group} - {_course.Name}";
+            cbEvaluations.ItemsSource = _course.Evaluations.Select(ev => new EvalItem { Name = ev.Name, Ref = ev }).ToList();
+            cbEvaluations.DisplayMemberPath = nameof(EvalItem.Name);
+            if (_course.Evaluations.Count > 0) cbEvaluations.SelectedIndex = 0;
         }
 
-        // eval select
         private void cbEvaluations_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RefreshSelectedEvaluation();
+        }
+
+        private void RefreshSelectedEvaluation()
         {
             var ev = cbEvaluations.SelectedItem as Evaluation;
             if (ev == null) return;
 
             txtWeight.Text = ev.Value.ToString();
 
-            // Build rows
             var rows = new List<EvalResultRow>();
             foreach (var sid in _course.StudentIds)
             {
                 App.Current.Students.TryGetValue(sid, out var stu);
                 ev.StudentResults.TryGetValue(sid, out var res);
-
                 rows.Add(new EvalResultRow
                 {
                     EvalName = ev.Name,
@@ -76,39 +85,32 @@ namespace TP1
             }
             lstEvalResults.ItemsSource = rows;
 
-            // average
-            var percents = rows.Where(r => ev.Value > 0)
-                               .Select(r => r.Result * 100.0 / ev.Value)
-                               .ToList();
+            var percents = rows.Where(r => ev.Value > 0).Select(r => r.Result * 100.0 / ev.Value).ToList();
             txtAverage.Text = percents.Count == 0 ? "—" : $"{percents.Average():0.00}";
         }
 
-        // ponderation
-        private void SaveWeight()
-        {
-            var ev = cbEvaluations.SelectedItem as Evaluation;
-            if (ev == null) return;
-
-            if (!int.TryParse(txtWeight.Text, out int newVal) || newVal < 0)
-            {
-                MessageBox.Show("Enter a valid non-negative weight.", "Error",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-
-            ev.Value = newVal;
-            cbEvaluations_SelectionChanged(cbEvaluations, new SelectionChangedEventArgs(Selector.SelectionChangedEvent, null, null));
-        }
 
         private void btnAddEvaluation_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("EvaluationAddWindow à brancher (Étudiant 2).", "Info");
+            var w = new EvaluationAddWindow(_course);
+            if (w.ShowDialog() == true)
+            {
+                cbEvaluations.ItemsSource = null;
+                cbEvaluations.ItemsSource = _course.Evaluations;
+                cbEvaluations.DisplayMemberPath = "Name";
+                cbEvaluations.SelectedIndex = _course.Evaluations.Count - 1;
+                RefreshSelectedEvaluation();
+            }
         }
 
         private void btnAddResult_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("AddResultWindow à brancher (Étudiant 2).", "Info");
+            var sel = cbEvaluations.SelectedItem as Evaluation;
+            var w = new AddResultWindow(_course, sel);
+            if (w.ShowDialog() == true)
+                RefreshSelectedEvaluation();
         }
+
 
         private void lstEvalResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -119,7 +121,6 @@ namespace TP1
         private void txtStudentId_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!int.TryParse(txtStudentId.Text, out int sid)) { txtFirstName.Text = ""; txtLastName.Text = ""; lstStudentAll.ItemsSource = null; return; }
-
             if (!App.Current.Students.TryGetValue(sid, out var stu)) { txtFirstName.Text = ""; txtLastName.Text = ""; lstStudentAll.ItemsSource = null; return; }
 
             txtFirstName.Text = stu.FirstName;
