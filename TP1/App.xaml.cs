@@ -17,7 +17,22 @@ namespace TP1
         public T GetWindow<T>() { return Windows.OfType<T>().First(); }
 
         public User? LoggedInUser;
-
+        
+        /* POUR TESTER
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            this.DispatcherUnhandledException += (s, ex) =>
+            {
+                MessageBox.Show(ex.Exception.ToString(), "Crash");
+                ex.Handled = true;
+            };
+            AppDomain.CurrentDomain.UnhandledException += (s, ex) =>
+            {
+                MessageBox.Show(ex.ExceptionObject?.ToString() ?? "Unhandled", "Crash");
+            };
+        }
+        */
         public List<Course> Courses { get => _courses; }
         private readonly List<Course> _courses = new List<Course>()
         {
