@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -64,14 +62,14 @@ namespace TP1
 
         private void btnChangePassword_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("pas fait", "Info",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            // MessageBox.Show("pas fait", "Info",
+            // MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void btnResetPassword_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("pas fait", "Info",
-                MessageBoxButton.OK, MessageBoxImage.Information);
+            //MessageBox.Show("pas fait", "Info",
+            //  MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)

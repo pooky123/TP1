@@ -7,90 +7,27 @@ namespace TP1
     /// </summary>
     public partial class ManageUsersWindow : Window
     {
+        public List<String> users = new();
         public ManageUsersWindow()
         {
             InitializeComponent();
-            AfficherTout();
+            AfficherUserType();
             BtnAddTeacher.Click += BtnAddTeacher_Click;
             BtnAddStudent.Click += BtnAddStudent_Click;
             BtnDelete.Click += BtnDelete_Click;
         }
 
-        public void AfficherTout()
+        public void AfficherUserType()
         {
             cmbType.Items.Add("All");
             cmbType.Items.Add("Teacher");
             cmbType.Items.Add("Student");
             cmbType.Items.Add("Admin");
-            if (cmbType.SelectedIndex == 1)
-            {
-                foreach (Teacher t in App.Current.Teachers.Values)
-                {
-                    lsvUser.Items.Add(t.ToString());
-                }
-                foreach (Student s in App.Current.Students.Values)
-                {
-                    lsvUser.Items.Add(s.ToString());
-                }
-                lsvUser.Items.Add(App.Current.Admin.ToString());
-            }
-            else if (cmbType.SelectedIndex == 2)
-            {
-                foreach (Teacher t in App.Current.Teachers.Values)
-                {
-                    lsvUser.Items.Add(t.ToString());
-                }
-            }
-            else if (cmbType.SelectedIndex == 3)
-            {
-                foreach (Student s in App.Current.Students.Values)
-                {
-                    lsvUser.Items.Add(s.ToString());
-                }
-            }
-            else if (cmbType.SelectedIndex == 4)
-            {
-                lsvUser.Items.Add(App.Current.Admin.ToString());
-            }
-
-
-
-
-
         }
 
         private void cmbType_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            if (cmbType.SelectedIndex == 1)
-            {
-                foreach (Teacher t in App.Current.Teachers.Values)
-                {
-                    lsvUser.Items.Add(t.ToString());
-                }
-                foreach (Student s in App.Current.Students.Values)
-                {
-                    lsvUser.Items.Add(s.ToString());
-                }
-                lsvUser.Items.Add(App.Current.Admin.ToString());
-            }
-            else if (cmbType.SelectedIndex == 2)
-            {
-                foreach (Teacher t in App.Current.Teachers.Values)
-                {
-                    lsvUser.Items.Add(t.ToString());
-                }
-            }
-            else if (cmbType.SelectedIndex == 3)
-            {
-                foreach (Student s in App.Current.Students.Values)
-                {
-                    lsvUser.Items.Add(s.ToString());
-                }
-            }
-            else if (cmbType.SelectedIndex == 4)
-            {
-                lsvUser.Items.Add(App.Current.Admin.ToString());
-            }
+            AfficherUser();
         }
 
         private void BtnAddTeacher_Click(object sender, RoutedEventArgs e)
@@ -105,14 +42,102 @@ namespace TP1
         }
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            foreach (Student s in App.Current.Students.Values)
+            MessageBoxResult resultat = MessageBox.Show("Voulez-vous vraiment supprimer cette utilisateur", "Valide suppression", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (resultat == MessageBoxResult.Yes)
             {
-
+                foreach (Student s in App.Current.Students.Values)
+                {
+                    if (lsvUser.SelectedItem.ToString() == s.ToString())
+                    {
+                        deleteStudent(s);
+                    }
+                }
+                foreach (Teacher t in App.Current.Teachers.Values)
+                {
+                    if (lsvUser.SelectedItem.ToString() == t.ToString())
+                    {
+                        deleteTeacher(t);
+                    }
+                }
+                AfficherUser();
             }
-            foreach (Teacher t in App.Current.Teachers.Values)
+        }
+
+
+        private void AfficherUser()
+        {
+            lsvUser.Items.Clear();
+            users.Clear();
+            if (cmbType.SelectedIndex == 0)
             {
-
+                foreach (Teacher t in App.Current.Teachers.Values)
+                {
+                    users.Add(t.ToString());
+                }
+                foreach (Student s in App.Current.Students.Values)
+                {
+                    users.Add(s.ToString());
+                }
+                users.Add(App.Current.Admin.ToString());
             }
+            else if (cmbType.SelectedIndex == 1)
+            {
+                foreach (Teacher t in App.Current.Teachers.Values)
+                {
+                    users.Add(t.ToString());
+                }
+            }
+            else if (cmbType.SelectedIndex == 2)
+            {
+                foreach (Student s in App.Current.Students.Values)
+                {
+                    users.Add(s.ToString());
+                }
+            }
+            else if (cmbType.SelectedIndex == 3)
+            {
+                users.Add(App.Current.Admin.ToString());
+            }
+            foreach (string s in users)
+            {
+                lsvUser.Items.Add(s);
+            }
+        }
+
+        private void TextBox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            lsvUser.Items.Clear();
+            foreach (string s in users)
+            {
+                if (s.Contains(txtSearch.Text))
+                {
+                    lsvUser.Items.Add(s);
+                }
+            }
+        }
+
+        private void deleteTeacher(Teacher t)
+        {
+            foreach (Course c in App.Current.Courses)
+            {
+                if (c.TeacherId == t.Id)
+                {
+                    c.TeacherId = -1;
+                }
+            }
+            App.Current.Teachers.Remove(t.Id);
+        }
+
+        private void deleteStudent(Student s)
+        {
+            foreach (Course c in App.Current.Courses)
+            {
+                if (c.StudentIds.Contains(s.Id))
+                {
+                    c.StudentIds.Remove(s.Id);
+                }
+            }
+            App.Current.Students.Remove(s.Id);
         }
     }
 }
